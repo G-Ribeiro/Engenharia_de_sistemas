@@ -19,7 +19,7 @@ public class objective_function {
 		int consSolar = 0; //TODO: Create func to calc consSolar
 		for (equipment i : decisionVar) {
 			for(int j = 0; j < TIME; j++) {
-				//TODO: sum according to objetive fumction		
+				//TODO: sum according to objetive function		
 			}
 		}
 		aux = aux - consSolar;
