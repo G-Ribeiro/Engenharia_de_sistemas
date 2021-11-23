@@ -12,11 +12,11 @@ public class equipment {
 		
 	}
 	
-	private int getPower() {
+	public int getPower() {
 		return this.power;
 	}
 	
-	private int getID() {
+	public int getID() {
 		return this.id_equipment;
 	}
 }
