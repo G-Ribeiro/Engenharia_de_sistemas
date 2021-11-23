@@ -1,7 +1,10 @@
 package algorithm;
 
+
 public class objective_function {
 	int bestSolution = 1000000000;
+	private static int TIME  = 24;
+	
 	public objective_function() {
 		
 	}
@@ -13,9 +16,13 @@ public class objective_function {
 	
 	private int calcFuncObj(equipment[] decisionVar) {
 		int aux = 0;
+		int consSolar = 0; //TODO: Create func to calc consSolar
 		for (equipment i : decisionVar) {
-			//TODO: sum according to objetive fumction
+			for(int j = 0; j < TIME; j++) {
+				//TODO: sum according to objetive fumction		
+			}
 		}
+		aux = aux - consSolar;
 		return aux;
 	}
 	
