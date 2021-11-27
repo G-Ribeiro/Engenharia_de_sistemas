@@ -3,7 +3,7 @@ package algorithm;
 
 public class objective_function {
 	int bestSolution = 1000000000;
-	private static int TIME  = 24;
+	private static int TIME  = 48;
 	
 	public objective_function() {
 		
