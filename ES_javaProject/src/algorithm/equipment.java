@@ -12,9 +12,10 @@ public class equipment {
 	private int minDuration; // timeslots of 30 mins for the minimum duration has to be on before turning the equipment off
 	private boolean[] Xt; // timeline of the equipment divided to timeslots of 30 mins
 	private boolean alreadyFullySchedulled;
+	private boolean daytime;
 	
 	//Constructor
-	public equipment(String name_equipment, double power, int execTime, int minDuration) {
+	public equipment(String name_equipment, double power, int execTime, int minDuration, boolean workmode) {
 		
 		this.name_equipment = name_equipment;
 		this.power = power;
@@ -31,6 +32,7 @@ public class equipment {
 		
 		this.Xt = new boolean[48];
 		this.alreadyFullySchedulled = false;
+		daytime = workmode;
 	}
 	
 
@@ -71,6 +73,10 @@ public class equipment {
 	
 	public boolean[] getTimeline() {
 		return this.Xt;
+	}
+	
+	public boolean getWorkMode() {
+		return this.daytime;
 	}
 	
 	//print equipment values

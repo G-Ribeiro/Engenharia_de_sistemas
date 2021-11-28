@@ -76,34 +76,34 @@ public class main {
 		*/
 		
 		//equipment init
-		cylinder1 = new equipment("Cylinder1",1.5,6,6);
+		cylinder1 = new equipment("Cylinder1",1.5,6,6,false);
 		equipmentList.add(cylinder1);
 		
-		cylinder2 = new equipment("Cylinder2",1.5,6,6);
+		cylinder2 = new equipment("Cylinder2",1.5,6,6,false);
 		equipmentList.add(cylinder2);
 		
-		cylinder3 = new equipment("Cylinder3",1.5,6,6);
+		cylinder3 = new equipment("Cylinder3",1.5,6,6,false);
 		equipmentList.add(cylinder3);
 		
-		wateringMotor = new equipment("WateringMotor",1.15,2,2);
+		wateringMotor = new equipment("WateringMotor",1.15,2,2,false);
 		equipmentList.add(wateringMotor);
 		
-		heater1 = new equipment("Heater1",1,20,20);
+		heater1 = new equipment("Heater1",1,20,20,true);
 		equipmentList.add(heater1);
 		
-		heater2 = new equipment("Heater2",1,20,20);
+		heater2 = new equipment("Heater2",1,20,20,true);
 		equipmentList.add(heater2);
 		
-		heater3 = new equipment("Heater3",1,20,20);
+		heater3 = new equipment("Heater3",1,20,20,true);
 		equipmentList.add(heater3);
 		
-		washingMachine = new equipment("WashingMachine",1.5,2,2);
+		washingMachine = new equipment("WashingMachine",1.5,2,2,true);
 		equipmentList.add(washingMachine);
 		
-		dishwasher = new equipment("Dishwasher",1.125,8,8);
+		dishwasher = new equipment("Dishwasher",1.125,8,8,true);
 		equipmentList.add(dishwasher);
 		
-		fridge = new equipment("Fridge", 0.150, 48,48);
+		fridge = new equipment("Fridge", 0.150, 48,48,false);
 		equipmentList.add(fridge);
 		
 		
