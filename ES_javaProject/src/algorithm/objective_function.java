@@ -1,5 +1,6 @@
 package algorithm;
 
+import java.util.ArrayList;
 
 public class objective_function {
 	int bestSolution = 1000000000;
@@ -9,12 +10,12 @@ public class objective_function {
 		
 	}
 
-	public boolean checkMin(equipment[] decisionVar) {
+	public boolean checkMin(ArrayList<equipment> decisionVar) {
 		int aux = this.calcFuncObj(decisionVar);
 		return aux < this.bestSolution;
 	}
 	
-	private int calcFuncObj(equipment[] decisionVar) {
+	private int calcFuncObj(ArrayList<equipment> decisionVar) {
 		int aux = 0;
 		int consSolar = 0; //TODO: Create func to calc consSolar
 		for (equipment i : decisionVar) {

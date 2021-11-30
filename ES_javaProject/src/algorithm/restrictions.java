@@ -12,11 +12,8 @@ public class restrictions {
 	
 	//restriction max consumption on the day
 	public boolean restrictionMaxConsumptionDay(int totalConsumption) {
-		if(totalConsumption <= Pt_day)
-			return true;
-		else
-			return false;
 		
+		return totalConsumption <= Pt_day;
 	}
 	
 	//restriction max consumption on the night
