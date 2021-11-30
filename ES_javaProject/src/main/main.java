@@ -108,8 +108,8 @@ public class main {
 		
 		
 		//equipment prints
-		for(int i = 0; i <equipmentList.size(); i++) 
-			System.out.println(equipmentList.get(i).toString());
+//		for(int i = 0; i <equipmentList.size(); i++) 
+//			System.out.println(equipmentList.get(i).toString());
 		
 		
 		

@@ -15,7 +15,7 @@ public class objective_function {
 		return aux < this.bestSolution;
 	}
 	
-	private int calcFuncObj(ArrayList<equipment> decisionVar) {
+	public int calcFuncObj(ArrayList<equipment> decisionVar) {
 		int aux = 0;
 		int consSolar = 0; //TODO: Create func to calc consSolar
 		for (equipment i : decisionVar) {

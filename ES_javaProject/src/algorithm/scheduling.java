@@ -22,7 +22,16 @@ public class scheduling {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+	//TODO: Pick a solution (for now can be a manual solution) 
 	
+	//TODO: Verify restrictions
 	
+	//TODO: Calculate objetive function and acumCons and check best solution
+	
+	//TODO: ToString
+	@Override
+	public String toString() {
+		return null;
+	}
 	
 }

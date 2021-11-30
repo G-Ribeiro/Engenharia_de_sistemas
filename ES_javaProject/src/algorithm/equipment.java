@@ -11,7 +11,7 @@ public class equipment {
 	private int execTime; // timeslots of 30 mins that has to execute per day
 	private int minDuration; // timeslots of 30 mins for the minimum duration has to be on before turning the equipment off
 	private boolean[] Xt; // timeline of the equipment divided to timeslots of 30 mins
-	private int acumCons; // Cit on the equations file. Acumulated power at t time with d duration 
+	public double[] acumCons = new double[48]; // Cit on the equations file. Acumulated power at t time with d duration 
 	private boolean alreadyFullySchedulled;
 	private boolean daytime;
 	
@@ -55,7 +55,7 @@ public class equipment {
 	}
 	
 	public void calcCumulatedPower(int starting_time, int duration, double[] tariff) {
-		this.acumCons = 0; //TODO: calculate cumulated
+		this.acumCons[starting_time] = 0; //TODO: calculate cumulated
 	}
 	
 	//All 'gets' for the info of all equipments
