@@ -61,6 +61,14 @@ public class scheduling {
 		}
 	}
 	
+	public boolean checkSolution(ArrayList<equipment> equipList) {
+//		int totalConsumption = objective_function.calcFuncObj(equipList);
+//		if(objective_function.bestSolution > totalConsumption) {
+//			objective_function.bestSolution = totalConsumption;
+//		}
+		return objective_function.bestSolution > objective_function.calcFuncObj(equipList);
+	}
+	
 	//TODO: ToString
 	@Override
 	public String toString() {
