@@ -43,13 +43,14 @@ public class main {
 		
 		//equipmentList init
 		equipmentList = new ArrayList<equipment>();
+		scheduling scheduler = new scheduling();
 		
 		//objective_function init
-		obj_function = new objective_function();
+		//obj_function = new objective_function();
 		
 		//restrictions init
-		restrics = new restrictions();
-		restrics.restrictionsInit();
+		//restrics = new restrictions();
+		//restrics.restrictionsInit();
 		
 		//tariffs init
 		double[] priceT = new double[3];
@@ -107,10 +108,16 @@ public class main {
 		equipmentList.add(fridge);
 		
 		
+		//test of acum calc
+//		System.out.println(cylinder1.acumCons[1]);
+//		cylinder1.Xt[1] = true;
+//		scheduler.calcAcumCons(equipmentList, simple);
+//		System.out.println(cylinder1.acumCons[1]);
+		
 		//equipment prints
 //		for(int i = 0; i <equipmentList.size(); i++) 
 //			System.out.println(equipmentList.get(i).toString());
-		
+//		
 		
 		
 	}

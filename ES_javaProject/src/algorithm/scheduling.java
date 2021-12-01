@@ -1,5 +1,7 @@
 package algorithm;
 
+import java.util.ArrayList;
+
 //
 //algorithm that does the scheduling procedure
 //
@@ -25,8 +27,39 @@ public class scheduling {
 	//TODO: Pick a solution (for now can be a manual solution) 
 	
 	//TODO: Verify restrictions
+	public boolean checkRest(ArrayList<equipment> equipList) {
+		int totalConsumption = objective_function.calcFuncObj(equipList);
+		if(!restrictions.restrictionMaxConsumptionDay(totalConsumption)) {
+			return false;
+		}
+		if(!restrictions.restrictionMaxConsumptionNight(totalConsumption)) {
+			return false;
+		}
+		return false;
+	}
 	
-	//TODO: Calculate objetive function and acumCons and check best solution
+	//TODO: Calculate objective function and acumCons and check best solution
+	public void calcAcumCons(ArrayList<equipment> equipList, tariff cost) {
+		for(equipment e: equipList) {
+			for(int i = 0; i < objective_function.TIME; i++) {
+				if(e.getTimeline()[i]) {
+					for(int j = 0; j < e.getExecTime(); j++) {
+						e.acumCons[i] += e.getPower() * cost.getTimelineTariff()[i+j];
+					}
+				}
+			}
+		}
+	}
+	
+	public void resetAcumCons(ArrayList<equipment> equipList) {
+		for(equipment e: equipList) {
+			for(int i = 0; i < objective_function.TIME; i++) {
+				if(e.getTimeline()[i]) {
+					e.acumCons[i] = 0;
+				}
+			}
+		}
+	}
 	
 	//TODO: ToString
 	@Override

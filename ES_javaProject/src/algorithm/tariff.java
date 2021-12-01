@@ -122,6 +122,11 @@ public class tariff {
 	}
 	
 	
+	public double[] getTimelineTariff() {
+		return timelineTariff;
+	}
+
+
 	//print tariff values
 	public String toString() {
 		String print = "Tariff nº: " + this.getTariffType() +  " - " + this.getTariffTypeByName() + " || Power=" + this.getPowerAvailable() + "kW || ";
