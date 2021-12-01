@@ -106,6 +106,10 @@ public class main {
 		fridge = new equipment("Fridge", 0.150, 48,48,false);
 		equipmentList.add(fridge);
 		
+		fridge.calcCumulatedPower(0, 4, simple.timelineTariff);
+		
+		System.out.println(fridge.toString());
+		
 		
 		//equipment prints
 //		for(int i = 0; i <equipmentList.size(); i++) 

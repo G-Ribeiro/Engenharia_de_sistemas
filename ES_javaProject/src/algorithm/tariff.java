@@ -13,7 +13,7 @@ public class tariff {
 									// Bi-hourly -> price[0] = empty price | price[1] = outside empty price
 									// Both tri-hourly -> price[0] = empty price | price[1] = full price | price[2] = tip/rush price
 	private double availablePower; // Power stipulated
-	private double[] timelineTariff;
+	public double[] timelineTariff;
 	
 	//Constructor
 	public tariff(int tarType,double availablePower, double[] price) {

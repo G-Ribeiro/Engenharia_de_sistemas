@@ -54,8 +54,10 @@ public class equipment {
 		return this.alreadyFullySchedulled;
 	}
 	
-	public void calcCumulatedPower(int starting_time, int duration, double[] tariff) {
-		this.acumCons[starting_time] = 0; //TODO: calculate cumulated
+	public void calcCumulatedPower(int starting_time, int duration,  double [] timelineTariff) {
+		for (int i = starting_time; i < (starting_time+duration); i++) {
+  			this.acumCons[i] = this.power * timelineTariff[i];
+		}
 	}
 	
 	//All 'gets' for the info of all equipments
@@ -87,10 +89,15 @@ public class equipment {
 	//print equipment values
 	public String toString() {
 		
-		String print = "Equipment name: " + this.getEquipment() + " || Power=" + this.getPower() + "kW" + " || Execute time: " + (this.getExecTime()/2) + "h || Scheduled? " + this.isAlreadySchedulled() + "\n---" + this.getEquipment()+ " timeline---\nEach timeslot represents 30 mins of the day\n";
+		String print = "Equipment name: " + this.getEquipment() + " || Power=" + 
+		this.getPower() + "kW" + " || Execute time: " + (this.getExecTime()/2) + 
+		"h || Scheduled? " + this.isAlreadySchedulled() + "\n---" + this.getEquipment()+ 
+		" timeline---\nEach timeslot represents 30 mins of the day\n";
 		
 		for(int i = 0; i < 48; i++)
-			print += "Slot nº" + i + " :" + this.getTimeline()[i] + "\n";
+			print += "Slot nï¿½" + i + " :" + this.getTimeline()[i] + 
+			" || acumCons["+ i + "] = " + this.acumCons[i] + "\n";
+			
 		
 		print += "\n";
 		
