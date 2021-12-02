@@ -107,6 +107,10 @@ public class main {
 		fridge = new equipment("Fridge", 0.150, 48,48,false);
 		equipmentList.add(fridge);
 		
+		fridge.calcCumulatedPower(0, 4, simple.timelineTariff);
+		
+		System.out.println(fridge.toString());
+		
 		
 		//test of acum calc
 //		System.out.println(cylinder1.acumCons[1]);
