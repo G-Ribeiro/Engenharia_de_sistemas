@@ -54,8 +54,10 @@ public class equipment {
 		return this.alreadyFullySchedulled;
 	}
 	
-	public void calcCumulatedPower(int starting_time, int duration, double[] tariff) {
-		this.acumCons[starting_time] = 0; //TODO: calculate cumulated
+	public void calcCumulatedPower(int starting_time, int duration, double[] timelineTariff) {
+		for (int i = starting_time; i < (starting_time+duration); i++) {
+  			this.acumCons[starting_time] += this.power * timelineTariff[i];
+		}
 	}
 	
 	//All 'gets' for the info of all equipments
