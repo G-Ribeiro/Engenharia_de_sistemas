@@ -1,6 +1,8 @@
 package algorithm;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 //
 //algorithm that does the scheduling procedure
@@ -25,6 +27,31 @@ public class scheduling {
 	
 	
 	//TODO: Pick a solution (for now can be a manual solution) 
+	public void randomSols(ArrayList<equipment> equip) {
+		
+		//int counter = 0;
+		
+		for(equipment e: equip) {
+			
+			//while(counter < e.getExecTime()) {
+				
+				int randomNum = ThreadLocalRandom.current().nextInt(0, 47 + 1);
+				
+				if(!e.getXtPosition(randomNum)) {
+					
+					e.turnOnInTimeline(randomNum);
+					//counter++;
+				}
+					
+			//}
+			
+			e.setScheduled();
+			//counter = 0;
+			
+		}
+		
+		
+	}
 	
 	//TODO: Verify restrictions
 	public boolean checkRest(ArrayList<equipment> equipList) {

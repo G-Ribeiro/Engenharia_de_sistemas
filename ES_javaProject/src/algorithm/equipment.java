@@ -42,7 +42,7 @@ public class equipment {
 	//Define a time to work in the timeline
 	public void turnOnInTimeline(int timestamp) {
 		
-		if(timestamp < 24 && timestamp > -1)
+		if(timestamp < 48 && timestamp > -1)
 			Xt[timestamp] = true;
 		else 
 			System.out.println("[Error]: Invalid timestamp");
@@ -52,6 +52,13 @@ public class equipment {
 	//Returning is the equipment is already implemented on the scheduling timeline
 	public boolean isAlreadySchedulled() {
 		return this.alreadyFullySchedulled;
+	}
+
+
+	//Define if the equipment is scheduled
+	public void setScheduled() {
+		this.alreadyFullySchedulled = true;
+		
 	}
 	
 
@@ -85,6 +92,10 @@ public class equipment {
 	
 	public boolean getWorkMode() {
 		return this.daytime;
+	}
+	
+	public boolean getXtPosition(int position) {
+		return this.Xt[position];
 	}
 	
 	//print equipment values
