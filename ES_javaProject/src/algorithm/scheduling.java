@@ -55,7 +55,7 @@ public class scheduling {
 	
 	//TODO: Verify restrictions
 	public boolean checkRest(ArrayList<equipment> equipList) {
-		int totalConsumption = objective_function.calcFuncObj(equipList);
+		double totalConsumption = objective_function.calcFuncObj(equipList);
 		if(!restrictions.restrictionMaxConsumptionDay(totalConsumption)) {
 			return false;
 		}

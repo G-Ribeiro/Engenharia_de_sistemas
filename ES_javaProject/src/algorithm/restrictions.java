@@ -11,14 +11,14 @@ abstract public class restrictions {
 	}
 	
 	//restriction max consumption on the day
-	static public boolean restrictionMaxConsumptionDay(int totalConsumption) {
+	static public boolean restrictionMaxConsumptionDay(double totalConsumption) {
 		
 		return totalConsumption <= Pt_day;
 	}
 	
 	//restriction max consumption on the night
 
-	static public boolean restrictionMaxConsumptionNight(int totalConsumption) {
+	static public boolean restrictionMaxConsumptionNight(double totalConsumption) {
 		
 		return totalConsumption <= Pt_night;
 	}
