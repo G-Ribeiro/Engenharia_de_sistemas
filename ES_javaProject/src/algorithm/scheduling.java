@@ -28,24 +28,24 @@ public class scheduling {
 	//TODO: Pick a solution (for now can be a manual solution) 
 	public void randomSols(ArrayList<equipment> equip) {
 		
-		int counter = 0;
+		//int counter = 0;
 		
 		for(equipment e: equip) {
 			
-			while(counter < e.getExecTime()) {
+			//while(counter < e.getExecTime()) {
 				
 				int randomNum = ThreadLocalRandom.current().nextInt(0, 47 + 1);
 				
 				if(!e.getXtPosition(randomNum)) {
 					
 					e.turnOnInTimeline(randomNum);
-					counter++;
+					//counter++;
 				}
 					
-			}
+			//}
 			
 			e.setScheduled();
-			counter = 0;
+			//counter = 0;
 			
 		}
 		
