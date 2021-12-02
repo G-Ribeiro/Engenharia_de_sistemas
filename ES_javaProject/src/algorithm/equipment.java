@@ -56,7 +56,7 @@ public class equipment {
 	
 	public void calcCumulatedPower(int starting_time, int duration,  double [] timelineTariff) {
 		for (int i = starting_time; i < (starting_time+duration); i++) {
-  			this.acumCons[i] = this.power * timelineTariff[i];
+  			this.acumCons[starting_time] += this.power * timelineTariff[i%48];
 		}
 	}
 	
