@@ -18,10 +18,8 @@ public class restrictions {
 	
 	//restriction max consumption on the night
 	public boolean restrictionMaxConsumptionNight(int totalConsumption) {
-		if(totalConsumption <= Pt_night)
-			return true;
-		else
-			return false;
+		
+		return totalConsumption <= Pt_night;
 	}
 	
 	
@@ -38,10 +36,7 @@ public class restrictions {
 	//restriction for all equipments that only should work at the daytime (equipment that is turn on manually)
 	public boolean restrictionWorkInTheDaytime(equipment e) {
 		
-		if(e.getWorkMode())
-			return true;
-		else
-			return false;
+		return e.getWorkMode();
 	}
 
 }

@@ -29,6 +29,7 @@ public class main {
 	static objective_function obj_function;
 	static ArrayList<equipment> equipmentList;
 	
+	
 	//main function
 	public static void main(String[] args) {
 		
@@ -106,12 +107,18 @@ public class main {
 		fridge = new equipment("Fridge", 0.150, 48,48,false);
 		equipmentList.add(fridge);
 		
+	
+		scheduling sh = new scheduling();
+		sh.randomSols(equipmentList);
 		
 		//equipment prints
-//		for(int i = 0; i <equipmentList.size(); i++) 
-//			System.out.println(equipmentList.get(i).toString());
+		for(int i = 0; i <equipmentList.size(); i++) 
+			System.out.println(equipmentList.get(i).toString());
 		
 		
+	
+		
+		//sh.randomSols();
 		
 	}
 
