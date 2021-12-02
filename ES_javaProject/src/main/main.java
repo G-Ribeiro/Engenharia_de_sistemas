@@ -106,15 +106,16 @@ public class main {
 		fridge = new equipment("Fridge", 0.150, 48,48,false);
 		equipmentList.add(fridge);
 		
-		fridge.calcCumulatedPower(0, 4, simple.timelineTariff);
+//		equipmentList.get(9).Xt[0] = true;
+//		equipmentList.get(9).calcCumulatedPower(0, 4, simple.timelineTariff);
 		
-		System.out.println(fridge.toString());
+		
+		obj_function.calcFuncObj(equipmentList);
 		
 		
 		//equipment prints
 //		for(int i = 0; i <equipmentList.size(); i++) 
-//			System.out.println(equipmentList.get(i).toString());
-		
+//			System.out.println(equipmentList.get(i).toString());	
 		
 		
 	}

@@ -11,20 +11,25 @@ public class objective_function {
 	}
 
 	public boolean checkMin(ArrayList<equipment> decisionVar) {
-		int aux = this.calcFuncObj(decisionVar);
-		return aux < this.bestSolution;
+		double objectiveFunc = this.calcFuncObj(decisionVar);
+		return objectiveFunc < this.bestSolution;
 	}
 	
-	public int calcFuncObj(ArrayList<equipment> decisionVar) {
-		int aux = 0;
-		int consSolar = 0; //TODO: Create func to calc consSolar
-		for (equipment i : decisionVar) {
+	public double calcFuncObj(ArrayList<equipment> decisionVar) {
+		double objectiveFunc = 0;
+		double consSolar = 0; //TODO: Create func to calc consSolar
+		for (equipment equip : decisionVar) {
 			for(int j = 0; j < TIME; j++) {
-				//TODO: sum according to objetive function		
+				if (equip.getTimeline()[j]) {
+					System.out.println(j);
+					System.out.println(equip);
+					objectiveFunc += equip.acumCons[j];
+				}
 			}
 		}
-		aux = aux - consSolar;
-		return aux;
+		objectiveFunc = objectiveFunc - consSolar;
+		System.out.println(objectiveFunc);
+		return objectiveFunc;
 	}
 	
 }

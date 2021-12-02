@@ -10,7 +10,7 @@ public class equipment {
 	private double power; // power consumed stipulated (mean of the power if equipment is not known)
 	private int execTime; // timeslots of 30 mins that has to execute per day
 	private int minDuration; // timeslots of 30 mins for the minimum duration has to be on before turning the equipment off
-	private boolean[] Xt; // timeline of the equipment divided to timeslots of 30 mins
+	public boolean[] Xt; // timeline of the equipment divided to timeslots of 30 mins
 	public double[] acumCons = new double[48]; // Cit on the equations file. Acumulated power at t time with d duration 
 	private boolean alreadyFullySchedulled;
 	private boolean daytime;
