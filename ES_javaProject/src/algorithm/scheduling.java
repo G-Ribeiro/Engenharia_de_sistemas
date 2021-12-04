@@ -24,7 +24,7 @@ public class scheduling {
 	//                              5. Combination of 1 and 3                                                                //
 	//                                                                                                                       //
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+	ArrayList<equipment> equipList = new ArrayList<equipment>();
 	
 	//TODO: Pick a solution (for now can be a manual solution) 
 	public void randomSols(ArrayList<equipment> equip) {
@@ -62,7 +62,7 @@ public class scheduling {
 		if(!restrictions.restrictionMaxConsumptionNight(totalConsumption)) {
 			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	//TODO: Calculate objective function and acumCons and check best solution
@@ -70,9 +70,7 @@ public class scheduling {
 		for(equipment e: equipList) {
 			for(int i = 0; i < objective_function.TIME; i++) {
 				if(e.getTimeline()[i]) {
-					for(int j = 0; j < e.getExecTime(); j++) {
-						e.acumCons[i] += e.getPower() * cost.getTimelineTariff()[i+j];
-					}
+					e.calcCumulatedPower(i, e.getExecTime(), cost.timelineTariff);
 				}
 			}
 		}
@@ -94,6 +92,10 @@ public class scheduling {
 //			objective_function.bestSolution = totalConsumption;
 //		}
 		return objective_function.bestSolution > objective_function.calcFuncObj(equipList);
+	}
+	
+	public void addEquipment(equipment e) {
+		this.equipList.add(e);
 	}
 	
 	//TODO: ToString
