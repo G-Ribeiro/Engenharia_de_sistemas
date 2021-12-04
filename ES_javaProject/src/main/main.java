@@ -27,7 +27,6 @@ public class main {
 	static equipment fridge;
 	static restrictions restrics;
 	static objective_function obj_function;
-	static ArrayList<equipment> equipmentList;
 	
 	
 	//main function
@@ -42,8 +41,6 @@ public class main {
 	//initialization of the constant components of the system (tariffs, equipments, etc...)
 	private static void initSystem() {
 		
-		//equipmentList init
-		equipmentList = new ArrayList<equipment>();
 		scheduling scheduler = new scheduling();
 		
 		//objective_function init
@@ -79,59 +76,59 @@ public class main {
 		
 		//equipment init
 		cylinder1 = new equipment("Cylinder1",1.5,6,6,false);
-		equipmentList.add(cylinder1);
+		scheduler.addEquipment(cylinder1);
 		
 		cylinder2 = new equipment("Cylinder2",1.5,6,6,false);
-		equipmentList.add(cylinder2);
+		scheduler.addEquipment(cylinder2);
 		
 		cylinder3 = new equipment("Cylinder3",1.5,6,6,false);
-		equipmentList.add(cylinder3);
+		scheduler.addEquipment(cylinder3);
 		
 		wateringMotor = new equipment("WateringMotor",1.15,2,2,false);
-		equipmentList.add(wateringMotor);
+		scheduler.addEquipment(wateringMotor);
 		
 		heater1 = new equipment("Heater1",1,20,20,true);
-		equipmentList.add(heater1);
+		scheduler.addEquipment(heater1);
 		
 		heater2 = new equipment("Heater2",1,20,20,true);
-		equipmentList.add(heater2);
+		scheduler.addEquipment(heater2);
 		
 		heater3 = new equipment("Heater3",1,20,20,true);
-		equipmentList.add(heater3);
+		scheduler.addEquipment(heater3);
 		
 		washingMachine = new equipment("WashingMachine",1.5,2,2,true);
-		equipmentList.add(washingMachine);
+		scheduler.addEquipment(washingMachine);
 		
 		dishwasher = new equipment("Dishwasher",1.125,8,8,true);
-		equipmentList.add(dishwasher);
+		scheduler.addEquipment(dishwasher);
 		
 		fridge = new equipment("Fridge", 0.150, 48,48,false);
-		equipmentList.add(fridge);
+		scheduler.addEquipment(fridge);
 		
-//		equipmentList.get(9).Xt[0] = true;
-//		equipmentList.get(9).calcCumulatedPower(0, 4, simple.timelineTariff);
+//		scheduler.getEquipList().get(9).Xt[0] = true;
+//		scheduler.getEquipList().get(9).calcCumulatedPower(0, 4, simple.timelineTariff);
 		
 		
-		obj_function.calcFuncObj(equipmentList);
+		objective_function.calcFuncObj(scheduler.getEquipList());
 		
 		
 		//test of acum calc
 //		System.out.println(cylinder1.acumCons[1]);
 //		cylinder1.Xt[1] = true;
-//		scheduler.calcAcumCons(equipmentList, simple);
+//		scheduler.calcAcumCons(scheduler.getEquipList(), simple);
 //		System.out.println(cylinder1.acumCons[1]);
 		
 		//equipment prints
-//		for(int i = 0; i <equipmentList.size(); i++) 
-//			System.out.println(equipmentList.get(i).toString());
+//		for(int i = 0; i <scheduler.getEquipList().size(); i++) 
+//			System.out.println(scheduler.getEquipList().get(i).toString());
 //		
 	
-//		scheduling sh = new scheduling();
-//		sh.randomSols(equipmentList);
+
+//		scheduler.randomSols(scheduler.getEquipList());
 //		
 //		//equipment prints
-//		for(int i = 0; i <equipmentList.size(); i++) 
-//			System.out.println(equipmentList.get(i).toString());	
+//		for(int i = 0; i <scheduler.getEquipList().size(); i++) 
+//			System.out.println(scheduler.getEquipList().get(i).toString());	
 		
 		//sh.randomSols();
 		

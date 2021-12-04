@@ -17,8 +17,6 @@ abstract public class objective_function {
 		for (equipment equip : decisionVar) {
 			for(int j = 0; j < TIME; j++) {
 				if (equip.getTimeline()[j]) {
-					System.out.println(j);
-					System.out.println(equip);
 					objectiveFunc += equip.acumCons[j];
 				}
 			}

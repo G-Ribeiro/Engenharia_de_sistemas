@@ -24,7 +24,7 @@ public class scheduling {
 	//                              5. Combination of 1 and 3                                                                //
 	//                                                                                                                       //
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	ArrayList<equipment> equipList = new ArrayList<equipment>();
+	private ArrayList<equipment> equipList = new ArrayList<equipment>();
 	
 	//TODO: Pick a solution (for now can be a manual solution) 
 	public void randomSols(ArrayList<equipment> equip) {
@@ -97,6 +97,11 @@ public class scheduling {
 	public void addEquipment(equipment e) {
 		this.equipList.add(e);
 	}
+	
+	public ArrayList<equipment> getEquipList() {
+		return equipList;
+	}
+
 	
 	//TODO: ToString
 	@Override
