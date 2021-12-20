@@ -2,29 +2,27 @@ package algorithm;
 
 import java.util.ArrayList;
 
-public class objective_function {
-	int bestSolution = 1000000000;
-	private static int TIME  = 48;
-	
-	public objective_function() {
-		
-	}
+abstract public class objective_function {
+	public static int bestSolution = 1000000000;
+	public static int TIME  = 48;
 
 	public boolean checkMin(ArrayList<equipment> decisionVar) {
-		int aux = this.calcFuncObj(decisionVar);
-		return aux < this.bestSolution;
+		double objectiveFunc = this.calcFuncObj(decisionVar);
+		return objectiveFunc < this.bestSolution;
 	}
 	
-	public int calcFuncObj(ArrayList<equipment> decisionVar) {
-		int aux = 0;
-		int consSolar = 0; //TODO: Create func to calc consSolar
-		for (equipment i : decisionVar) {
+	public static double calcFuncObj(ArrayList<equipment> decisionVar) {
+		double objectiveFunc = 0;
+		double consSolar = 0; 
+		for (equipment equip : decisionVar) {
 			for(int j = 0; j < TIME; j++) {
-				//TODO: sum according to objetive function		
+				if (equip.getTimeline()[j]) {
+					objectiveFunc += equip.acumCons[j];
+				}
 			}
 		}
-		aux = aux - consSolar;
-		return aux;
+		objectiveFunc = objectiveFunc - consSolar;
+		return objectiveFunc;
 	}
 	
 }

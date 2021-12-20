@@ -7,6 +7,7 @@ import algorithm.objective_function;
 import algorithm.tariff;
 import algorithm.scheduling;
 
+ 
 
 public class main {
 	
@@ -27,14 +28,35 @@ public class main {
 	static equipment fridge;
 	static restrictions restrics;
 	static objective_function obj_function;
-	static ArrayList<equipment> equipmentList;
+	static scheduling scheduler;
 	
+	static int RUNS = 100;
 	
 	//main function
 	public static void main(String[] args) {
 		
 		initSystem();
 		
+
+		for(int i = 0; i < RUNS; i++) {
+			
+			scheduler.heuristicScheduling();
+			scheduler.calcAcumCons(scheduler.getEquipList(), bi_hourly);
+			System.out.println("MONEY SPEND PER DAY INT RUNS NO" + (i+1) +": " + objective_function.calcFuncObj(scheduler.getEquipList()));
+			
+			for(int j = 0; j < scheduler.getEquipList().size();j++)
+				scheduler.getEquipList().get(j).resetEquipment();
+				
+				
+			
+		}
+	
+		
+		
+//		equipment prints
+//		for(int i = 0; i <scheduler.getEquipList().size(); i++) 
+//			System.out.println(scheduler.getEquipList().get(i).toString());	
+//		System.out.println("MONEY SPEND PER DAY: " + objective_function.calcFuncObj(scheduler.getEquipList()));
 		
 	}
 
@@ -42,15 +64,15 @@ public class main {
 	//initialization of the constant components of the system (tariffs, equipments, etc...)
 	private static void initSystem() {
 		
-		//equipmentList init
-		equipmentList = new ArrayList<equipment>();
+		
+		scheduler = new scheduling();
 		
 		//objective_function init
-		obj_function = new objective_function();
+		//obj_function = new objective_function();
 		
 		//restrictions init
-		restrics = new restrictions();
-		restrics.restrictionsInit();
+		//restrics = new restrictions();
+		//restrics.restrictionsInit();
 		
 		//tariffs init
 		double[] priceT = new double[3];
@@ -64,7 +86,7 @@ public class main {
 		
 		priceT[0] = 0.0327;
 		priceT[1] = 0.0811;
-		priceT[2] = 0.108;
+		priceT[2] = 0.1993;
 		tri_hourly_summer = new tariff(3, 6.9, priceT);
 		tri_hourly_winter = new tariff(4, 6.9, priceT);
 		
@@ -77,49 +99,56 @@ public class main {
 		*/
 		
 		//equipment init
-		cylinder1 = new equipment("Cylinder1",1.5,6,6,false);
-		equipmentList.add(cylinder1);
+		cylinder1 = new equipment(1,"Cylinder1",1.5,6,6,false);
+		scheduler.addEquipment(cylinder1);
 		
-		cylinder2 = new equipment("Cylinder2",1.5,6,6,false);
-		equipmentList.add(cylinder2);
+		cylinder2 = new equipment(2,"Cylinder2",1.5,6,6,false);
+		scheduler.addEquipment(cylinder2);
 		
-		cylinder3 = new equipment("Cylinder3",1.5,6,6,false);
-		equipmentList.add(cylinder3);
+		cylinder3 = new equipment(3,"Cylinder3",1.5,6,6,false);
+		scheduler.addEquipment(cylinder3);
 		
-		wateringMotor = new equipment("WateringMotor",1.15,2,2,false);
-		equipmentList.add(wateringMotor);
+		wateringMotor = new equipment(4,"WateringMotor",1.15,2,2,false);
+		scheduler.addEquipment(wateringMotor);
 		
-		heater1 = new equipment("Heater1",1,20,20,true);
-		equipmentList.add(heater1);
+		heater1 = new equipment(5,"Heater1",1,20,20,true);
+		scheduler.addEquipment(heater1);
 		
-		heater2 = new equipment("Heater2",1,20,20,true);
-		equipmentList.add(heater2);
+		heater2 = new equipment(6,"Heater2",1,20,20,true);
+		scheduler.addEquipment(heater2);
 		
-		heater3 = new equipment("Heater3",1,20,20,true);
-		equipmentList.add(heater3);
+		heater3 = new equipment(7,"Heater3",1,20,20,true);
+		scheduler.addEquipment(heater3);
 		
-		washingMachine = new equipment("WashingMachine",1.5,2,2,true);
-		equipmentList.add(washingMachine);
+		washingMachine = new equipment(8,"WashingMachine",1.5,2,2,true);
+		scheduler.addEquipment(washingMachine);
 		
-		dishwasher = new equipment("Dishwasher",1.125,8,8,true);
-		equipmentList.add(dishwasher);
+		dishwasher = new equipment(9,"Dishwasher",1.125,8,8,true);
+		scheduler.addEquipment(dishwasher);
 		
-		fridge = new equipment("Fridge", 0.150, 48,48,false);
-		equipmentList.add(fridge);
+		fridge = new equipment(10,"Fridge", 0.150, 48,48,false);
+		scheduler.addEquipment(fridge);
 		
-	
-		scheduling sh = new scheduling();
-		sh.randomSols(equipmentList);
+//		scheduler.getEquipList().get(9).Xt[0] = true;
+//		scheduler.getEquipList().get(9).calcCumulatedPower(0, 4, simple.timelineTariff);
+		
+		
+		
+		//test of acum calc
+//		System.out.println(cylinder1.acumCons[1]);
+//		cylinder1.Xt[1] = true;
+//		
+//		System.out.println(cylinder1.acumCons[1]);
 		
 		//equipment prints
-		for(int i = 0; i <equipmentList.size(); i++) 
-			System.out.println(equipmentList.get(i).toString());
-		
-		
+//		for(int i = 0; i <scheduler.getEquipList().size(); i++) 
+//			System.out.println(scheduler.getEquipList().get(i).toString());
+//		
 	
-		
-		//sh.randomSols();
+
+//		scheduler.randomSols(scheduler.getEquipList());
 		
 	}
+
 
 }
