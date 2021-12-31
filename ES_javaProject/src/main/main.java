@@ -30,7 +30,7 @@ public class main {
 	static objective_function obj_function;
 	static scheduling scheduler;
 	
-	static int RUNS = 100;
+	static int RUNS = 1000;
 	
 	//main function
 	public static void main(String[] args) {
@@ -38,11 +38,32 @@ public class main {
 		initSystem();
 		
 
+		double bestResult = 1000000;
+		ArrayList<equipment> bestEquipList = new ArrayList<equipment>();
+		
 		for(int i = 0; i < RUNS; i++) {
 			
-			scheduler.heuristicScheduling();
-			scheduler.calcAcumCons(scheduler.getEquipList(), bi_hourly);
+			
+			scheduler.heuristicScheduling(tri_hourly_summer);
+			scheduler.calcAcumCons(scheduler.getEquipList(), tri_hourly_summer);
 			System.out.println("MONEY SPEND PER DAY INT RUNS NO" + (i+1) +": " + objective_function.calcFuncObj(scheduler.getEquipList()));
+			
+			if(objective_function.calcFuncObj(scheduler.getEquipList()) < bestResult) {
+				
+				bestEquipList.clear();
+				for(int n = 0; n < scheduler.getEquipList().size(); n++) {
+					
+					equipment auxEquip = new equipment();
+					auxEquip = scheduler.getEquipList().get(n).cloneEquipment();
+					bestEquipList.add(auxEquip);
+				}
+				
+				bestResult = objective_function.calcFuncObj(scheduler.getEquipList());
+				
+			}
+				
+
+
 			
 			for(int j = 0; j < scheduler.getEquipList().size();j++)
 				scheduler.getEquipList().get(j).resetEquipment();
@@ -51,12 +72,12 @@ public class main {
 			
 		}
 	
-		
-		
 //		equipment prints
-//		for(int i = 0; i <scheduler.getEquipList().size(); i++) 
-//			System.out.println(scheduler.getEquipList().get(i).toString());	
-//		System.out.println("MONEY SPEND PER DAY: " + objective_function.calcFuncObj(scheduler.getEquipList()));
+		for(int n = 0; n <bestEquipList.size(); n++) 
+			System.out.println(bestEquipList.get(n).toString());	
+		System.out.println("MONEY SPEND PER DAY: " + bestResult);
+		
+
 		
 	}
 
@@ -123,11 +144,11 @@ public class main {
 		washingMachine = new equipment(8,"WashingMachine",1.5,2,2,true);
 		scheduler.addEquipment(washingMachine);
 		
-		dishwasher = new equipment(9,"Dishwasher",1.125,8,8,true);
-		scheduler.addEquipment(dishwasher);
-		
-		fridge = new equipment(10,"Fridge", 0.150, 48,48,false);
-		scheduler.addEquipment(fridge);
+//		dishwasher = new equipment(9,"Dishwasher",1.125,8,8,true);
+//		scheduler.addEquipment(dishwasher);
+//		
+//		fridge = new equipment(10,"Fridge", 0.150, 48,48,false);
+//		scheduler.addEquipment(fridge);
 		
 //		scheduler.getEquipList().get(9).Xt[0] = true;
 //		scheduler.getEquipList().get(9).calcCumulatedPower(0, 4, simple.timelineTariff);

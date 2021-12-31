@@ -12,7 +12,7 @@ public class equipment {
 	private int minDuration; // timeslots of 30 mins for the minimum duration has to be on before turning the equipment off
 	public boolean[] Xt; // timeline of the equipment divided to timeslots of 30 mins
 	public double[] acumCons = new double[48]; // Cit on the equations file. Acumulated power at t time with d duration 
-	private boolean alreadyFullySchedulled;
+	public boolean alreadyFullySchedulled;
 	private boolean daytime;
 	private int id;
 	
@@ -118,6 +118,24 @@ public class equipment {
 	
 	public boolean getXtPosition(int position) {
 		return this.Xt[position];
+	}
+	
+	
+	//clone equipment
+	
+	public equipment cloneEquipment() {
+		
+		equipment newEquip = new equipment(this.getID(), this.getEquipment(),this.getPower(),this.getExecTime(),this.getMinDuration(),this.getWorkMode());
+		newEquip.alreadyFullySchedulled = this.isAlreadySchedulled();
+		
+		for(int i = 0; i < this.Xt.length;i++) {
+			newEquip.Xt[i] = this.Xt[i];
+			newEquip.acumCons[i] = this.acumCons[i];
+		}
+		
+		
+		return newEquip;
+		
 	}
 	
 	//print equipment values

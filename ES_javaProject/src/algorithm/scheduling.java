@@ -1,8 +1,11 @@
 package algorithm;
 
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import main.main;
 
 //
 //algorithm that does the scheduling procedure
@@ -31,17 +34,17 @@ public class scheduling {
 	//***PAULO HEURISTIC METHOD***//
 	
 	//main function
-	public void heuristicScheduling() {
+	public void heuristicScheduling(tariff tar) {
 		
 		int counter = 0;
 		int iPosition = -1;
 		double[] totalconsumption = new double[48];
 		
-		while(counter < 10) {
+		while(counter < equipList.size()) {
 			
 			
 			//random num for an ID equipment
-			int randomEquip = ThreadLocalRandom.current().nextInt(1, 10 + 1);
+			int randomEquip = ThreadLocalRandom.current().nextInt(1, equipList.size() + 1);
 			
 			equipment selectedEquip = new equipment();
 			selectedEquip.setID(-1);
@@ -50,7 +53,7 @@ public class scheduling {
 				
 				if(equipList.get(i).getID() == randomEquip && !equipList.get(i).isAlreadySchedulled()) { //check if there is a equipment with the id generated + equipment is not already scheduled
 					selectedEquip = equipList.get(i);
-					iPosition = i;   //save position of the equipment in the array (safety measure, may be not necessary bc the existance of the ID)
+					iPosition = i;   //save position of the equipment in the array (safety measure, may be not necessary bc the existence of the ID)
 				}
 			}
 			
@@ -62,13 +65,76 @@ public class scheduling {
 				
 				if(restrictions.restrictionWorkInTheDaytime(selectedEquip)) {  //equipment works only on the day hours
 	
+					//greedy algorithm for the scheduling
 					
-					//System.out.println("rt + execTime: " + randomTime + selectedEquip.getExecTime());
-					
-					while(randomTime + selectedEquip.getExecTime() > 47) {   //generate a valid starting time
-						randomTime = ThreadLocalRandom.current().nextInt(17, 47 + 1);
+					if(tar.getTariffTypeByName() == "Simple") {
+						//while(randomTime + selectedEquip.getExecTime() > 47) {   //generate a valid starting time
+						randomTime = ThreadLocalRandom.current().nextInt(17, (47-selectedEquip.getExecTime()) + 1);
+						
 						//System.out.println("Day time generated: " + randomTime);
+						
+						
 					}
+					
+					else if(tar.getTariffTypeByName() == "Bi-hourly") {
+						
+						
+						if(44 < (47-selectedEquip.getExecTime())) 
+							randomTime = ThreadLocalRandom.current().nextInt(44, (47-selectedEquip.getExecTime()) + 1);
+						
+						else
+							randomTime = ThreadLocalRandom.current().nextInt(17, (47-selectedEquip.getExecTime()) + 1);
+						
+					}
+					
+					else if(tar.getTariffTypeByName() == "Summer Tri-hourly") {
+						
+						if(44 < (47-selectedEquip.getExecTime())) 
+							randomTime = ThreadLocalRandom.current().nextInt(44, (47-selectedEquip.getExecTime()) + 1);
+						
+						else {
+							int greedyTries = 10;
+							boolean flagGreedy = false;
+							
+							ArrayList<List<Integer>> rangeList = new ArrayList<List<Integer>>();
+							List<Integer> range1 = new ArrayList<>();
+							List<Integer> range2 = new ArrayList<>();
+							List<Integer> range3 = new ArrayList<>();
+							
+							for(int i = 17; i < 21; i++)
+								range1.add(i);
+							
+							for(int i = 26; i < 39; i++)
+								range2.add(i);
+							
+							for(int i = 42; i < 44; i++)
+								range3.add(i);
+							
+							rangeList.add(range1);
+							rangeList.add(range2);
+							rangeList.add(range3);
+							
+							for(int i = 0; i < greedyTries; i++) {
+								
+								List<Integer> randomRange = rangeList.get(new Random().nextInt(rangeList.size()));
+								
+								int min = randomRange.get(0);
+								int max = randomRange.get(randomRange.size()-1);
+								
+								if(min < (max-selectedEquip.getExecTime())) {
+									randomTime = ThreadLocalRandom.current().nextInt(min, (max-selectedEquip.getExecTime()) + 1);
+									flagGreedy = true;
+									break;
+								}
+								
+							}
+							
+							if(!flagGreedy)
+								randomTime = ThreadLocalRandom.current().nextInt(17, (47-selectedEquip.getExecTime()) + 1);
+						}
+					
+					}
+					
 					
 					flagScheduled = true;
 				}
@@ -76,8 +142,8 @@ public class scheduling {
 					
 					int[] wateringHours = restrictions.restrictionWateringHours();
 					
-					while(randomTime + selectedEquip.getExecTime() > 47)   //generate a valid starting time
-						randomTime = ThreadLocalRandom.current().nextInt(wateringHours[0], wateringHours[1] + 1);
+					//while(randomTime + selectedEquip.getExecTime() > 47)   //generate a valid starting time
+						randomTime = ThreadLocalRandom.current().nextInt(wateringHours[0], (wateringHours[1] - selectedEquip.getExecTime()) + 1);
 					
 					flagScheduled = true;
 					
