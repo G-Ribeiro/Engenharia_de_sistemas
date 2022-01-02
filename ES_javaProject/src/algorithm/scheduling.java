@@ -23,13 +23,13 @@ public class scheduling {
 //    		
 //    	  To implement after:
 //
-//			- Do multiple integrations (EASY, DONE)
-//    		- Search for the cheapest time
-//    		- Divide equipments in smaller ones to have the equipment turn on multiple times on the day;
+//			- Do multiple integrations (DONE)
+//    		- Search for the cheapest time (DONE)
+//    		- Divide equipments in smaller ones to have the equipment turn on multiple times on the day; (or just initiate different ones referring to the same equipment)
 //    	  	- Solar panel inclusion
 
 	private ArrayList<equipment> equipList = new ArrayList<equipment>();
-	
+	private ArrayList<photovoltaicPanel> panelList = new ArrayList<photovoltaicPanel>();
 	
 	//***PAULO HEURISTIC METHOD***//
 	
@@ -101,13 +101,61 @@ public class scheduling {
 							List<Integer> range2 = new ArrayList<>();
 							List<Integer> range3 = new ArrayList<>();
 							
-							for(int i = 17; i < 21; i++)
+							for(int i = 16; i < 21; i++)
 								range1.add(i);
 							
 							for(int i = 26; i < 39; i++)
 								range2.add(i);
 							
 							for(int i = 42; i < 44; i++)
+								range3.add(i);
+							
+							rangeList.add(range1);
+							rangeList.add(range2);
+							rangeList.add(range3);
+							
+							for(int i = 0; i < greedyTries; i++) {
+								
+								List<Integer> randomRange = rangeList.get(new Random().nextInt(rangeList.size()));
+								
+								int min = randomRange.get(0);
+								int max = randomRange.get(randomRange.size()-1);
+								
+								if(min < (max-selectedEquip.getExecTime())) {
+									randomTime = ThreadLocalRandom.current().nextInt(min, (max-selectedEquip.getExecTime()) + 1);
+									flagGreedy = true;
+									break;
+								}
+								
+							}
+							
+							if(!flagGreedy)
+								randomTime = ThreadLocalRandom.current().nextInt(17, (47-selectedEquip.getExecTime()) + 1);
+						}
+					
+					}
+					
+					else if(tar.getTariffTypeByName() == "Winter Tri-hourly") {
+						
+						if(44 < (47-selectedEquip.getExecTime())) 
+							randomTime = ThreadLocalRandom.current().nextInt(44, (47-selectedEquip.getExecTime()) + 1);
+						
+						else {
+							int greedyTries = 10;
+							boolean flagGreedy = false;
+							
+							ArrayList<List<Integer>> rangeList = new ArrayList<List<Integer>>();
+							List<Integer> range1 = new ArrayList<>();
+							List<Integer> range2 = new ArrayList<>();
+							List<Integer> range3 = new ArrayList<>();
+							
+							for(int i = 16; i < 18; i++)
+								range1.add(i);
+							
+							for(int i = 21; i < 36; i++)
+								range2.add(i);
+							
+							for(int i = 41; i < 44; i++)
 								range3.add(i);
 							
 							rangeList.add(range1);
@@ -150,7 +198,7 @@ public class scheduling {
 				}
 				
 				else {
-					randomTime = ThreadLocalRandom.current().nextInt(0, 47 + 1);
+					randomTime = ThreadLocalRandom.current().nextInt(0, (15-selectedEquip.getExecTime()) + 1);
 					flagScheduled = true;
 				}
 				
@@ -159,7 +207,27 @@ public class scheduling {
 					equipList.get(iPosition).turnOnInTimeline(randomTime);
 					equipList.get(iPosition).setScheduled();
 					
+					
+					for(int i = 0; i < panelList.size(); i++) {
+						for(int j = randomTime; j < (randomTime+selectedEquip.getExecTime());j++) {
+							
+							if((selectedEquip.getPower()*1000) < (panelList.get(i).getPowerTimeline()[j] - panelList.get(i).getEquipsTimeline()[j])) {
+								
+								panelList.get(i).getEquipsTimeline()[j] += selectedEquip.getPower()*1000;
+								//System.out.println("ID ADDED: " + selectedEquip.getID());
+							}
+							
+							else if((selectedEquip.getPower()*1000) < panelList.get(i).getPowerTimeline()[j] && (selectedEquip.getPower()*1000) > panelList.get(i).getEquipsTimeline()[j]){
+								
+								panelList.get(i).getEquipsTimeline()[j] = selectedEquip.getPower()*1000;
+								//System.out.println("ID UPDATED: " + selectedEquip.getID());
+							}
+						}
+					}
+					
+					
 					for(int i = randomTime; i < (randomTime + equipList.get(iPosition).getExecTime());i++) {
+						
 						
 						int pos;
 						
@@ -171,7 +239,7 @@ public class scheduling {
 						else
 							pos = i;
 						
-						totalconsumption[pos] += equipList.get(iPosition).getPower()/2;  //total consumption accumulated each 30 mins
+						totalconsumption[pos] += equipList.get(iPosition).getPower();  //total consumption accumulated each 30 mins
 					}
 						
 					
@@ -188,7 +256,7 @@ public class scheduling {
 					
 					//System.out.println("CONSUMPTION No" + i + ": " +totalconsumption[i]);
 					
-					if(i < 7) {
+					if(i < 17) {
 						if(!restrictions.restrictionMaxConsumptionNight(totalconsumption[i])) {						
 							counter = 0;	
 							for(int j = 0; j < totalconsumption.length; j++) 							
@@ -257,7 +325,7 @@ public class scheduling {
 	
 	//TODO: Verify restrictions
 	public boolean checkRest(ArrayList<equipment> equipList) {
-		double totalConsumption = objective_function.calcFuncObj(equipList);
+		double totalConsumption = objective_function.calcFuncObj(equipList,panelList);
 		if(!restrictions.restrictionMaxConsumptionDay(totalConsumption)) {
 			return false;
 		}
@@ -268,7 +336,7 @@ public class scheduling {
 	}
 	
 	//TODO: Calculate objective function and acumCons and check best solution
-	public void calcAcumCons(ArrayList<equipment> equipList, tariff cost) {
+	public void calcAcumCons(ArrayList<equipment> equipList,ArrayList<photovoltaicPanel> panelList, tariff cost) {
 		for(equipment e: equipList) {
 			for(int i = 0; i < objective_function.TIME; i++) {
 				if(e.getTimeline()[i]) {
@@ -276,14 +344,22 @@ public class scheduling {
 				}
 			}
 		}
+		
+		for(photovoltaicPanel p: panelList) {
+			for(int i = 0; i < objective_function.TIME; i++) {
+				
+				p.calcCumulatedPower(cost.timelineTariff);
+			}
+		}
 	}
 	
-	public void resetAcumCons(ArrayList<equipment> equipList) {
+	public void resetAcumCons(ArrayList<equipment> equipList,ArrayList<photovoltaicPanel> panelList) {
 		for(equipment e: equipList) {
+			e.resetEquipment();
+		}
+		for(photovoltaicPanel p: panelList) {
 			for(int i = 0; i < objective_function.TIME; i++) {
-				if(e.getTimeline()[i]) {
-					e.acumCons[i] = 0;
-				}
+				p.sumPowerTimeline[i] = 0;
 			}
 		}
 	}
@@ -293,7 +369,7 @@ public class scheduling {
 //		if(objective_function.bestSolution > totalConsumption) {
 //			objective_function.bestSolution = totalConsumption;
 //		}
-		return objective_function.bestSolution > objective_function.calcFuncObj(equipList);
+		return objective_function.bestSolution > objective_function.calcFuncObj(equipList,panelList);
 	}
 	
 	public void addEquipment(equipment e) {
@@ -301,9 +377,18 @@ public class scheduling {
 	}
 	
 	public ArrayList<equipment> getEquipList() {
-		return equipList;
+		return this.equipList;
+	}
+	
+	public void addPanel(photovoltaicPanel pc) {
+		
+		this.panelList.add(pc);
 	}
 
+	public ArrayList<photovoltaicPanel> getPanelList() {
+		
+		return this.panelList;
+	}
 	
 	//TODO: ToString
 	@Override

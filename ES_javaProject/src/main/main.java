@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import algorithm.equipment;
 import algorithm.restrictions;
 import algorithm.objective_function;
+import algorithm.photovoltaicPanel;
 import algorithm.tariff;
 import algorithm.scheduling;
 
@@ -29,8 +30,9 @@ public class main {
 	static restrictions restrics;
 	static objective_function obj_function;
 	static scheduling scheduler;
+	static photovoltaicPanel panel1;
 	
-	static int RUNS = 1000;
+	static int RUNS = 10000;
 	
 	//main function
 	public static void main(String[] args) {
@@ -38,17 +40,20 @@ public class main {
 		initSystem();
 		
 
+		
 		double bestResult = 1000000;
+		double bestSaved = 0;
 		ArrayList<equipment> bestEquipList = new ArrayList<equipment>();
+		
 		
 		for(int i = 0; i < RUNS; i++) {
 			
 			
-			scheduler.heuristicScheduling(tri_hourly_summer);
-			scheduler.calcAcumCons(scheduler.getEquipList(), tri_hourly_summer);
-			System.out.println("MONEY SPEND PER DAY INT RUNS NO" + (i+1) +": " + objective_function.calcFuncObj(scheduler.getEquipList()));
+			scheduler.heuristicScheduling(bi_hourly);
+			scheduler.calcAcumCons(scheduler.getEquipList(),scheduler.getPanelList(), bi_hourly);
+			System.out.println("MONEY SPEND PER DAY INT RUNS NO" + (i+1) +": " + objective_function.calcFuncObj(scheduler.getEquipList(),scheduler.getPanelList()));
 			
-			if(objective_function.calcFuncObj(scheduler.getEquipList()) < bestResult) {
+			if(objective_function.calcFuncObj(scheduler.getEquipList(),scheduler.getPanelList()) < bestResult) {
 				
 				bestEquipList.clear();
 				for(int n = 0; n < scheduler.getEquipList().size(); n++) {
@@ -56,18 +61,19 @@ public class main {
 					equipment auxEquip = new equipment();
 					auxEquip = scheduler.getEquipList().get(n).cloneEquipment();
 					bestEquipList.add(auxEquip);
+					bestSaved = objective_function.SAVED;
+					
 				}
 				
-				bestResult = objective_function.calcFuncObj(scheduler.getEquipList());
+				bestResult = objective_function.calcFuncObj(scheduler.getEquipList(),scheduler.getPanelList());
 				
 			}
 				
 
-
+			//for(int j = 0; j < scheduler.getPanelList().size(); j++)
+				//System.out.println(scheduler.getPanelList().get(j).toString());
 			
-			for(int j = 0; j < scheduler.getEquipList().size();j++)
-				scheduler.getEquipList().get(j).resetEquipment();
-				
+			scheduler.resetAcumCons(scheduler.getEquipList(), scheduler.getPanelList());
 				
 			
 		}
@@ -75,7 +81,7 @@ public class main {
 //		equipment prints
 		for(int n = 0; n <bestEquipList.size(); n++) 
 			System.out.println(bestEquipList.get(n).toString());	
-		System.out.println("MONEY SPEND PER DAY: " + bestResult);
+		System.out.println("MONEY SAVED:" + bestSaved + "|| MONEY SPEND PER DAY: " + bestResult);
 		
 
 		
@@ -110,6 +116,11 @@ public class main {
 		priceT[2] = 0.1993;
 		tri_hourly_summer = new tariff(3, 6.9, priceT);
 		tri_hourly_winter = new tariff(4, 6.9, priceT);
+		
+		
+		panel1 = new photovoltaicPanel(1,"Clear Sky",1000);
+		scheduler.addPanel(panel1);
+		//System.out.println(panel.toString());
 		
 		/*
 		//tariffs prints

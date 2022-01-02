@@ -2,7 +2,7 @@ package algorithm;
 
 abstract public class restrictions {
 	
-	private static double Pt_day = 2.5;
+	private static double Pt_day = 3;
 	private static double Pt_night = 5;
 	
 	
